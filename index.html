@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Photography & Poetry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fafafa;
+        }
+
+        header {
+            background: #fff;
+            padding: 2rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #2c3e50;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            background: #ddd;
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .poems {
+            display: grid;
+            gap: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .poem {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .poem h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .poem-content {
+            font-style: italic;
+            white-space: pre-line;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Your Name</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#photography">Photography</a></li>
+                <li><a href="#poetry">Poetry</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>Welcome</h1>
+        <p>Capturing moments through the lens and expressing them through words</p>
+    </div>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="about-content">
+            <p>Hello! I'm [Your Name], a photographer and poet based in [Your Location]. I find beauty in the ordinary and magic in the everyday. Through my photography and poetry, I aim to share the stories and emotions that move me.</p>
+            <p>Replace this text with your own bio. Tell visitors about your artistic journey, what inspires you, and what you hope to share through your work.</p>
+        </div>
+    </section>
+
+    <section id="photography">
+        <h2>Photography</h2>
+        <div class="gallery">
+            <div class="gallery-item">
+                <!-- Replace with: <img src="images/photo1.jpg" alt="Description"> -->
+                Photo Placeholder 1
+            </div>
+            <div class="gallery-item">
+                <!-- Replace with: <img src="images/photo2.jpg" alt="Description"> -->
+                Photo Placeholder 2
+            </div>
+            <div class="gallery-item">
+                <!-- Replace with: <img src="images/photo3.jpg" alt="Description"> -->
+                Photo Placeholder 3
+            </div>
+            <div class="gallery-item">
+                <!-- Replace with: <img src="images/photo4.jpg" alt="Description"> -->
+                Photo Placeholder 4
+            </div>
+            <div class="gallery-item">
+                <!-- Replace with: <img src="images/photo5.jpg" alt="Description"> -->
+                Photo Placeholder 5
+            </div>
+            <div class="gallery-item">
+                <!-- Replace with: <img src="images/photo6.jpg" alt="Description"> -->
+                Photo Placeholder 6
+            </div>
+        </div>
+    </section>
+
+    <section id="poetry">
+        <h2>Poetry</h2>
+        <div class="poems">
+            <div class="poem">
+                <h3>Poem Title One</h3>
+                <div class="poem-content">Replace this with your poem.
+Each line will appear on a new line.
+You can write as many lines as you'd like.
+
+Add stanzas by leaving blank lines.
+The formatting will be preserved.
+Let your words flow freely here.</div>
+            </div>
+
+            <div class="poem">
+                <h3>Poem Title Two</h3>
+                <div class="poem-content">Another poem goes here.
+Share your voice and vision.
+Express what moves your soul.
+
+This is your space to create.
+Replace these placeholder words.
+With the poetry you hold dear.</div>
+            </div>
+
+            <div class="poem">
+                <h3>Poem Title Three</h3>
+                <div class="poem-content">A third poem awaits your words.
+Each piece tells its own story.
+Each line carries your unique voice.
+
+Add as many poems as you wish.
+Simply copy this poem section.
+And paste it below with new content.</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Your Name. All rights reserved.</p>
+    </footer>
+</body>
+</html>
