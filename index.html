@@ -32,22 +32,36 @@
         opacity:0.4;
     }
 
-    /* Header */
+    /* ─── HEADER ─── */
     header {
         position:sticky; top:0; z-index:100;
-        background:rgba(245,243,240,0.88);
+        background:rgba(245,243,240,0.92);
         backdrop-filter:blur(12px);
+        -webkit-backdrop-filter:blur(12px);
         border-bottom:1px solid rgba(124,92,191,0.1);
         padding:1.2rem 0;
     }
-    nav { max-width:1100px; margin:0 auto; padding:0 2rem; display:flex; justify-content:space-between; align-items:center; }
+    nav {
+        max-width:1100px;
+        margin:0 auto;
+        padding:0 1.5rem;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+    }
     .logo {
         font-family:'DM Serif Display', serif;
         font-size:1.5rem;
         color:var(--accent);
         letter-spacing:0.5px;
     }
-    .nav-links { list-style:none; display:flex; gap:2.5rem; }
+
+    /* Desktop nav links */
+    .nav-links {
+        list-style:none;
+        display:flex;
+        gap:2.5rem;
+    }
     .nav-links a {
         font-size:0.9rem;
         font-weight:500;
@@ -68,21 +82,92 @@
     .nav-links a:hover { color:var(--accent); }
     .nav-links a:hover::after { width:100%; }
 
-    /* Hero */
+    /* ─── HAMBURGER BUTTON ─── */
+    .hamburger {
+        display:none;
+        flex-direction:column;
+        justify-content:center;
+        gap:5px;
+        width:40px;
+        height:40px;
+        background:none;
+        border:none;
+        cursor:pointer;
+        padding:6px;
+        border-radius:10px;
+        transition:background 0.2s;
+        z-index:200;
+    }
+    .hamburger:hover { background:rgba(124,92,191,0.08); }
+    .hamburger span {
+        display:block;
+        height:2px;
+        background:var(--accent);
+        border-radius:2px;
+        transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+        transform-origin:center;
+    }
+    /* X animation */
+    .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+    /* ─── MOBILE DRAWER ─── */
+    .mobile-drawer {
+        display:none;
+        position:fixed;
+        top:0; left:0; right:0;
+        background:rgba(245,243,240,0.98);
+        backdrop-filter:blur(20px);
+        -webkit-backdrop-filter:blur(20px);
+        z-index:99;
+        padding:6rem 2rem 2.5rem;
+        transform:translateY(-100%);
+        transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);
+        border-bottom:1px solid rgba(124,92,191,0.15);
+    }
+    .mobile-drawer.open { transform:translateY(0); }
+    .mobile-drawer ul {
+        list-style:none;
+        display:flex;
+        flex-direction:column;
+        gap:0;
+    }
+    .mobile-drawer ul li {
+        border-bottom:1px solid rgba(124,92,191,0.1);
+    }
+    .mobile-drawer ul li:first-child {
+        border-top:1px solid rgba(124,92,191,0.1);
+    }
+    .mobile-drawer ul a {
+        display:block;
+        padding:1rem 0;
+        font-size:1.1rem;
+        font-weight:500;
+        color:var(--muted);
+        letter-spacing:0.5px;
+        text-transform:uppercase;
+        transition:color 0.2s, padding-left 0.2s;
+    }
+    .mobile-drawer ul a:hover {
+        color:var(--accent);
+        padding-left:0.5rem;
+    }
+
+    /* ─── HERO ─── */
     .hero {
         position:relative;
         display:flex; flex-direction:column;
         align-items:center; justify-content:center;
         text-align:center;
         min-height:85vh;
-        padding:0 2rem;
+        padding:0 1.5rem;
         overflow:hidden;
     }
     .hero-bg {
         position:absolute; inset:0;
         background:linear-gradient(135deg, #1a1625 0%, #2d1f4e 50%, #3b2473 100%);
     }
-    /* Decorative orbs */
     .orb {
         position:absolute;
         border-radius:50%;
@@ -96,7 +181,7 @@
     @keyframes drift { from { transform:translate(0,0); } to { transform:translate(30px,40px); } }
     @keyframes pulse { 0%,100% { opacity:0.2; transform:translate(-50%,-50%) scale(1); } 50% { opacity:0.5; transform:translate(-50%,-50%) scale(1.3); } }
 
-    .hero-content { position:relative; z-index:2; }
+    .hero-content { position:relative; z-index:2; width:100%; }
     .hero-eyebrow {
         font-size:0.8rem;
         letter-spacing:3px;
@@ -108,7 +193,7 @@
     }
     .hero h1 {
         font-family:'DM Serif Display', serif;
-        font-size:4.5rem;
+        font-size:clamp(2.4rem, 8vw, 4.5rem);
         color:#fff;
         line-height:1.1;
         margin-bottom:1.5rem;
@@ -120,12 +205,14 @@
         font-size:1.15rem;
         color:rgba(255,255,255,0.65);
         max-width:500px;
+        margin:0 auto;
         animation:fadeInUp 1s ease 0.3s forwards;
         opacity:0;
     }
     .hero-cta {
         margin-top:2.5rem;
         display:flex; gap:1rem; justify-content:center;
+        flex-wrap:wrap;
         animation:fadeInUp 1s ease 0.45s forwards;
         opacity:0;
     }
@@ -143,7 +230,6 @@
     .btn-ghost { background:transparent; color:#fff; border:2px solid rgba(255,255,255,0.3); }
     .btn-ghost:hover { border-color:#fff; transform:translateY(-2px); }
 
-    /* Scroll indicator */
     .scroll-indicator {
         position:absolute;
         bottom:2.5rem;
@@ -168,10 +254,9 @@
     }
     @keyframes scrollPulse { 0%,100% {opacity:0.4; transform:scaleY(1);} 50% {opacity:1; transform:scaleY(0.7);} }
 
-    /* Sections */
-    section { max-width:1100px; margin:8rem auto; padding:0 2rem; }
+    /* ─── SECTIONS ─── */
+    section { max-width:1100px; margin:6rem auto; padding:0 1.5rem; }
 
-    /* Section headings */
     .section-label {
         font-size:0.75rem;
         letter-spacing:3px;
@@ -182,28 +267,27 @@
     }
     h2 {
         font-family:'DM Serif Display', serif;
-        font-size:2.8rem;
+        font-size:clamp(2rem, 6vw, 2.8rem);
         text-align:center;
-        margin-bottom:3.5rem;
+        margin-bottom:3rem;
         color:var(--ink);
     }
     h2 span { font-style:italic; color:var(--accent); }
 
-    /* About */
     .about-content {
         max-width:700px;
         margin:0 auto;
         text-align:center;
-        font-size:1.15rem;
+        font-size:1.1rem;
         line-height:1.9;
         color:var(--muted);
     }
 
-    /* Programming */
+    /* ─── PROJECTS ─── */
     .programming-content {
         display:grid;
-        grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
-        gap:2rem;
+        grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+        gap:1.5rem;
     }
     .project-card {
         background:var(--card);
@@ -229,7 +313,6 @@
     }
     .project-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(124,92,191,0.15); border-color:rgba(124,92,191,0.3); }
     .project-card:hover::before { opacity:1; }
-
     .project-icon {
         width:56px; height:56px;
         border-radius:16px;
@@ -268,8 +351,8 @@
     }
     .project-card a:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(124,92,191,0.35); }
 
-    /* Photography */
-    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; }
+    /* ─── GALLERY ─── */
+    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.25rem; }
     .gallery-item {
         border-radius:18px;
         overflow:hidden;
@@ -290,37 +373,57 @@
     }
     .gallery-item:hover .gallery-overlay { opacity:1; }
 
-    /* Divider */
+    /* ─── DIVIDER ─── */
     .divider {
         max-width:1100px;
         margin:0 auto;
-        padding:0 2rem;
+        padding:0 1.5rem;
         border:none;
         border-top:1px solid rgba(124,92,191,0.12);
     }
 
-    /* Footer */
+    /* ─── FOOTER ─── */
     footer {
         background:var(--ink);
         color:rgba(255,255,255,0.5);
         text-align:center;
-        padding:2.5rem;
+        padding:2.5rem 1.5rem;
         font-size:0.85rem;
         letter-spacing:0.5px;
     }
     footer a { color:var(--accent2); transition:color 0.3s; }
     footer a:hover { color:#fff; }
 
-    /* Animations */
+    /* ─── ANIMATIONS ─── */
     @keyframes fadeInUp { 0% {opacity:0; transform:translateY(24px);} 100% {opacity:1; transform:translateY(0);} }
     @keyframes fadeIn { 0% {opacity:0;} 100% {opacity:1;} }
 
-    /* Responsive */
-    @media(max-width:768px) {
-        .hero h1 { font-size:2.8rem; }
-        h2 { font-size:2.2rem; }
-        .nav-links { gap:1.5rem; }
-        .hero-cta { flex-direction:column; align-items:center; }
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+        /* Show hamburger, hide desktop nav */
+        .hamburger { display:flex; }
+        .nav-links { display:none; }
+        .mobile-drawer { display:block; }
+
+        /* Only show last name in logo on mobile */
+        .logo-first { display:none; }
+
+        section { margin:4rem auto; }
+
+        .hero { min-height:90vh; padding:0 1.25rem; }
+        .hero p { font-size:1rem; }
+        .btn { width:100%; text-align:center; }
+        .hero-cta { flex-direction:column; align-items:stretch; max-width:280px; margin:2rem auto 0; }
+
+        .programming-content { grid-template-columns:1fr; }
+        .gallery { grid-template-columns:1fr; }
+        .gallery-item { aspect-ratio:16/10; }
+
+        h2 { margin-bottom:2rem; }
+    }
+
+    @media (max-width: 400px) {
+        .logo { font-size:1.25rem; }
     }
 </style>
 </head>
@@ -328,15 +431,34 @@
 
 <header>
     <nav>
-        <div class="logo">Brandon Guergo</div>
+        <div class="logo">
+            <span class="logo-first">Brandon </span>Guergo
+        </div>
+        <!-- Desktop nav -->
         <ul class="nav-links">
             <li><a href="#about">About</a></li>
             <li><a href="#programming">Projects</a></li>
             <li><a href="#photography">Photography</a></li>
             <li><a href="https://github.com/BrandonGuergo" target="_blank">GitHub</a></li>
         </ul>
+        <!-- Hamburger button (mobile only) -->
+        <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </nav>
 </header>
+
+<!-- Mobile drawer -->
+<div class="mobile-drawer" id="mobileDrawer">
+    <ul>
+        <li><a href="#about" class="drawer-link">About</a></li>
+        <li><a href="#programming" class="drawer-link">Projects</a></li>
+        <li><a href="#photography" class="drawer-link">Photography</a></li>
+        <li><a href="https://github.com/BrandonGuergo" target="_blank" class="drawer-link">GitHub</a></li>
+    </ul>
+</div>
 
 <div class="hero">
     <div class="hero-bg"></div>
@@ -411,6 +533,36 @@
 <footer>
     <p>&copy; 2026 Brandon Guergo &mdash; <a href="https://github.com/BrandonGuergo" target="_blank">GitHub</a></p>
 </footer>
+
+<script>
+    const hamburger = document.querySelector('.hamburger');
+    const drawer = document.getElementById('mobileDrawer');
+    const drawerLinks = document.querySelectorAll('.drawer-link');
+
+    function toggleMenu(open) {
+        hamburger.classList.toggle('open', open);
+        drawer.classList.toggle('open', open);
+        hamburger.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    hamburger.addEventListener('click', () => {
+        const isOpen = drawer.classList.contains('open');
+        toggleMenu(!isOpen);
+    });
+
+    // Close drawer when a link is tapped
+    drawerLinks.forEach(link => {
+        link.addEventListener('click', () => toggleMenu(false));
+    });
+
+    // Close on outside tap
+    document.addEventListener('click', (e) => {
+        if (drawer.classList.contains('open') && !drawer.contains(e.target) && !hamburger.contains(e.target)) {
+            toggleMenu(false);
+        }
+    });
+</script>
 
 </body>
 </html>
