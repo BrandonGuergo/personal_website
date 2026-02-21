@@ -4,59 +4,324 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brandon Guergo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-    /* Reset & base styles */
+    /* Reset & base */
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family: 'Poppins', sans-serif; line-height:1.6; background:#f8f7f6; color:#333; overflow-x:hidden; }
-    a { text-decoration:none; color: inherit; }
+    :root {
+        --ink: #1a1625;
+        --muted: #6b6580;
+        --bg: #f5f3f0;
+        --card: #ffffff;
+        --accent: #7c5cbf;
+        --accent2: #b5a0e0;
+        --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+    body { font-family:'DM Sans', sans-serif; line-height:1.7; background:var(--bg); color:var(--ink); overflow-x:hidden; }
+    a { text-decoration:none; color:inherit; }
+
+    /* Grain overlay */
+    body::before {
+        content:'';
+        position:fixed;
+        inset:0;
+        background-image:var(--grain);
+        background-size:200px;
+        pointer-events:none;
+        z-index:999;
+        opacity:0.4;
+    }
 
     /* Header */
-    header { position: sticky; top:0; z-index:100; background:#fff; padding:1.5rem 0; box-shadow:0 5px 15px rgba(0,0,0,0.05); }
-    nav { max-width:1200px; margin:0 auto; padding:0 2rem; display:flex; justify-content:space-between; align-items:center; }
-    .logo { font-size:1.8rem; font-weight:700; color:#764ba2; letter-spacing:1px; }
-    .nav-links { list-style:none; display:flex; gap:2rem; }
-    .nav-links a { font-weight:500; position:relative; transition:0.3s; }
-    .nav-links a::after { content:''; position:absolute; width:0%; height:2px; bottom:-3px; left:0; background:#764ba2; transition:0.3s; }
+    header {
+        position:sticky; top:0; z-index:100;
+        background:rgba(245,243,240,0.88);
+        backdrop-filter:blur(12px);
+        border-bottom:1px solid rgba(124,92,191,0.1);
+        padding:1.2rem 0;
+    }
+    nav { max-width:1100px; margin:0 auto; padding:0 2rem; display:flex; justify-content:space-between; align-items:center; }
+    .logo {
+        font-family:'DM Serif Display', serif;
+        font-size:1.5rem;
+        color:var(--accent);
+        letter-spacing:0.5px;
+    }
+    .nav-links { list-style:none; display:flex; gap:2.5rem; }
+    .nav-links a {
+        font-size:0.9rem;
+        font-weight:500;
+        color:var(--muted);
+        letter-spacing:0.5px;
+        text-transform:uppercase;
+        position:relative;
+        transition:color 0.3s;
+    }
+    .nav-links a::after {
+        content:'';
+        position:absolute;
+        width:0; height:1.5px;
+        bottom:-4px; left:0;
+        background:var(--accent);
+        transition:width 0.3s;
+    }
+    .nav-links a:hover { color:var(--accent); }
     .nav-links a:hover::after { width:100%; }
 
     /* Hero */
-    .hero { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height:80vh; background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; padding:0 2rem; }
-    .hero h1 { font-size:3.5rem; margin-bottom:1rem; animation:fadeInUp 1s ease forwards; opacity:0; }
-    .hero p { font-size:1.3rem; max-width:600px; animation:fadeInUp 1.2s ease forwards; opacity:0; }
+    .hero {
+        position:relative;
+        display:flex; flex-direction:column;
+        align-items:center; justify-content:center;
+        text-align:center;
+        min-height:85vh;
+        padding:0 2rem;
+        overflow:hidden;
+    }
+    .hero-bg {
+        position:absolute; inset:0;
+        background:linear-gradient(135deg, #1a1625 0%, #2d1f4e 50%, #3b2473 100%);
+    }
+    /* Decorative orbs */
+    .orb {
+        position:absolute;
+        border-radius:50%;
+        filter:blur(80px);
+        opacity:0.35;
+    }
+    .orb-1 { width:500px; height:500px; background:#7c5cbf; top:-100px; left:-100px; animation:drift 12s ease-in-out infinite alternate; }
+    .orb-2 { width:400px; height:400px; background:#4a3080; bottom:-80px; right:-80px; animation:drift 15s ease-in-out infinite alternate-reverse; }
+    .orb-3 { width:200px; height:200px; background:#b5a0e0; top:50%; left:50%; transform:translate(-50%,-50%); animation:pulse 6s ease-in-out infinite; }
+
+    @keyframes drift { from { transform:translate(0,0); } to { transform:translate(30px,40px); } }
+    @keyframes pulse { 0%,100% { opacity:0.2; transform:translate(-50%,-50%) scale(1); } 50% { opacity:0.5; transform:translate(-50%,-50%) scale(1.3); } }
+
+    .hero-content { position:relative; z-index:2; }
+    .hero-eyebrow {
+        font-size:0.8rem;
+        letter-spacing:3px;
+        text-transform:uppercase;
+        color:var(--accent2);
+        margin-bottom:1.5rem;
+        animation:fadeInUp 0.8s ease forwards;
+        opacity:0;
+    }
+    .hero h1 {
+        font-family:'DM Serif Display', serif;
+        font-size:4.5rem;
+        color:#fff;
+        line-height:1.1;
+        margin-bottom:1.5rem;
+        animation:fadeInUp 1s ease 0.15s forwards;
+        opacity:0;
+    }
+    .hero h1 em { font-style:italic; color:var(--accent2); }
+    .hero p {
+        font-size:1.15rem;
+        color:rgba(255,255,255,0.65);
+        max-width:500px;
+        animation:fadeInUp 1s ease 0.3s forwards;
+        opacity:0;
+    }
+    .hero-cta {
+        margin-top:2.5rem;
+        display:flex; gap:1rem; justify-content:center;
+        animation:fadeInUp 1s ease 0.45s forwards;
+        opacity:0;
+    }
+    .btn {
+        padding:0.75rem 2rem;
+        border-radius:50px;
+        font-size:0.9rem;
+        font-weight:600;
+        letter-spacing:0.5px;
+        cursor:pointer;
+        transition:all 0.3s;
+    }
+    .btn-primary { background:var(--accent); color:#fff; border:2px solid var(--accent); }
+    .btn-primary:hover { background:#6a4aad; border-color:#6a4aad; transform:translateY(-2px); box-shadow:0 10px 30px rgba(124,92,191,0.4); }
+    .btn-ghost { background:transparent; color:#fff; border:2px solid rgba(255,255,255,0.3); }
+    .btn-ghost:hover { border-color:#fff; transform:translateY(-2px); }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+        position:absolute;
+        bottom:2.5rem;
+        left:50%;
+        transform:translateX(-50%);
+        z-index:2;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:0.5rem;
+        color:rgba(255,255,255,0.4);
+        font-size:0.75rem;
+        letter-spacing:2px;
+        text-transform:uppercase;
+        animation:fadeIn 2s ease 1s forwards;
+        opacity:0;
+    }
+    .scroll-line {
+        width:1px; height:50px;
+        background:linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+        animation:scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse { 0%,100% {opacity:0.4; transform:scaleY(1);} 50% {opacity:1; transform:scaleY(0.7);} }
 
     /* Sections */
-    section { max-width:1200px; margin:6rem auto; padding:0 2rem; }
-    h2 { font-size:2.8rem; text-align:center; margin-bottom:3rem; background:linear-gradient(90deg,#667eea,#764ba2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    section { max-width:1100px; margin:8rem auto; padding:0 2rem; }
+
+    /* Section headings */
+    .section-label {
+        font-size:0.75rem;
+        letter-spacing:3px;
+        text-transform:uppercase;
+        color:var(--accent);
+        margin-bottom:0.75rem;
+        text-align:center;
+    }
+    h2 {
+        font-family:'DM Serif Display', serif;
+        font-size:2.8rem;
+        text-align:center;
+        margin-bottom:3.5rem;
+        color:var(--ink);
+    }
+    h2 span { font-style:italic; color:var(--accent); }
 
     /* About */
-    .about-content { max-width:800px; margin:0 auto; text-align:center; font-size:1.1rem; line-height:1.8; color:#555; animation:fadeIn 1s ease forwards; opacity:0; }
+    .about-content {
+        max-width:700px;
+        margin:0 auto;
+        text-align:center;
+        font-size:1.15rem;
+        line-height:1.9;
+        color:var(--muted);
+    }
 
     /* Programming */
-    .programming-content { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2.5rem; }
-    .project-card { background:#fff; padding:2rem; border-radius:15px; box-shadow:0 15px 30px rgba(0,0,0,0.05); transition:0.5s; position:relative; overflow:hidden; }
-    .project-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg,#667eea,#764ba2); transform:translateY(100%); transition:0.5s; opacity:0.2; z-index:0; }
-    .project-card:hover::before { transform:translateY(0); }
-    .project-card h3 { font-size:1.6rem; margin-bottom:1rem; color:#764ba2; position:relative; z-index:1; }
-    .project-card p { margin-bottom:1rem; position:relative; z-index:1; }
-    .project-card a { font-weight:600; color:#fff; background:#764ba2; padding:0.5rem 1rem; border-radius:8px; transition:0.3s; position:relative; z-index:1; }
-    .project-card a:hover { background:#667eea; }
+    .programming-content {
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
+        gap:2rem;
+    }
+    .project-card {
+        background:var(--card);
+        padding:2.5rem 2rem;
+        border-radius:20px;
+        border:1px solid rgba(124,92,191,0.1);
+        box-shadow:0 4px 24px rgba(0,0,0,0.05);
+        transition:all 0.4s ease;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+        position:relative;
+        overflow:hidden;
+    }
+    .project-card::before {
+        content:'';
+        position:absolute;
+        inset:0;
+        background:linear-gradient(135deg, rgba(124,92,191,0.04), rgba(181,160,224,0.08));
+        opacity:0;
+        transition:opacity 0.4s;
+    }
+    .project-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(124,92,191,0.15); border-color:rgba(124,92,191,0.3); }
+    .project-card:hover::before { opacity:1; }
+
+    .project-icon {
+        width:56px; height:56px;
+        border-radius:16px;
+        background:linear-gradient(135deg, #7c5cbf, #b5a0e0);
+        display:flex; align-items:center; justify-content:center;
+        margin-bottom:1.5rem;
+        font-size:1.5rem;
+    }
+    .project-card h3 {
+        font-family:'DM Serif Display', serif;
+        font-size:1.5rem;
+        color:var(--ink);
+        margin-bottom:0.75rem;
+        position:relative;
+        z-index:1;
+    }
+    .project-card p {
+        color:var(--muted);
+        font-size:0.95rem;
+        margin-bottom:1.75rem;
+        flex-grow:1;
+        position:relative;
+        z-index:1;
+    }
+    .project-card a {
+        font-weight:600;
+        font-size:0.85rem;
+        color:#fff;
+        background:linear-gradient(135deg, #7c5cbf, #9b7dd4);
+        padding:0.65rem 1.75rem;
+        border-radius:50px;
+        transition:all 0.3s;
+        position:relative;
+        z-index:1;
+        letter-spacing:0.3px;
+    }
+    .project-card a:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(124,92,191,0.35); }
 
     /* Photography */
-    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2rem; }
-    .gallery-item { border-radius:15px; overflow:hidden; position:relative; cursor:pointer; box-shadow:0 15px 30px rgba(0,0,0,0.05); transition:0.5s; background:#ddd; display:flex; align-items:center; justify-content:center; aspect-ratio:4/3; color:#888; font-weight:500; font-size:1rem; }
-    .gallery-item img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s; }
-    .gallery-item:hover img { transform:scale(1.1); }
-    .gallery-item::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 0%, rgba(0,0,0,0.2) 100%); opacity:0.3; border-radius:15px; }
+    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; }
+    .gallery-item {
+        border-radius:18px;
+        overflow:hidden;
+        position:relative;
+        aspect-ratio:4/3;
+        box-shadow:0 8px 30px rgba(0,0,0,0.1);
+        transition:transform 0.5s ease, box-shadow 0.5s ease;
+        background:#ddd;
+    }
+    .gallery-item img { width:100%; height:100%; object-fit:cover; transition:transform 0.6s ease; display:block; }
+    .gallery-item:hover { transform:translateY(-5px); box-shadow:0 20px 50px rgba(0,0,0,0.18); }
+    .gallery-item:hover img { transform:scale(1.07); }
+    .gallery-overlay {
+        position:absolute; inset:0;
+        background:linear-gradient(180deg, transparent 40%, rgba(26,22,37,0.6) 100%);
+        opacity:0;
+        transition:opacity 0.4s;
+    }
+    .gallery-item:hover .gallery-overlay { opacity:1; }
+
+    /* Divider */
+    .divider {
+        max-width:1100px;
+        margin:0 auto;
+        padding:0 2rem;
+        border:none;
+        border-top:1px solid rgba(124,92,191,0.12);
+    }
 
     /* Footer */
-    footer { background:#2c3e50; color:#fff; text-align:center; padding:2rem; margin-top:4rem; }
+    footer {
+        background:var(--ink);
+        color:rgba(255,255,255,0.5);
+        text-align:center;
+        padding:2.5rem;
+        font-size:0.85rem;
+        letter-spacing:0.5px;
+    }
+    footer a { color:var(--accent2); transition:color 0.3s; }
+    footer a:hover { color:#fff; }
 
     /* Animations */
-    @keyframes fadeInUp { 0% {opacity:0; transform:translateY(30px);} 100% {opacity:1; transform:translateY(0);} }
+    @keyframes fadeInUp { 0% {opacity:0; transform:translateY(24px);} 100% {opacity:1; transform:translateY(0);} }
     @keyframes fadeIn { 0% {opacity:0;} 100% {opacity:1;} }
 
     /* Responsive */
-    @media(max-width:768px){ .hero h1{font-size:2.5rem;} h2{font-size:2.2rem;} .nav-links{gap:1rem;} }
+    @media(max-width:768px) {
+        .hero h1 { font-size:2.8rem; }
+        h2 { font-size:2.2rem; }
+        .nav-links { gap:1.5rem; }
+        .hero-cta { flex-direction:column; align-items:center; }
+    }
 </style>
 </head>
 <body>
@@ -66,7 +331,7 @@
         <div class="logo">Brandon Guergo</div>
         <ul class="nav-links">
             <li><a href="#about">About</a></li>
-            <li><a href="#programming">Programming</a></li>
+            <li><a href="#programming">Projects</a></li>
             <li><a href="#photography">Photography</a></li>
             <li><a href="https://github.com/BrandonGuergo" target="_blank">GitHub</a></li>
         </ul>
@@ -74,44 +339,77 @@
 </header>
 
 <div class="hero">
-    <h1>Hi, I'm Brandon Guergo</h1>
-    <p>Blending code with creativity, and moments with memories.</p>
+    <div class="hero-bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="hero-content">
+        <p class="hero-eyebrow">Developer &amp; Photographer</p>
+        <h1>Hi, I'm <em>Brandon</em><br>Guergo</h1>
+        <p>Blending code with creativity, and moments with memories.</p>
+        <div class="hero-cta">
+            <a href="#programming" class="btn btn-primary">View My Work</a>
+            <a href="#photography" class="btn btn-ghost">See Photos</a>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+    </div>
 </div>
 
 <section id="about">
-    <h2>About Me</h2>
+    <p class="section-label">Who I Am</p>
+    <h2>About <span>Me</span></h2>
     <div class="about-content">
-        <p>Hello! I'm Brandon Guergo, a developer and photographer based in Florida.</p>
+        <p>Hello! I'm Brandon Guergo, a developer and photographer based in Florida. I love building things from the ground up — whether that's a programming language interpreter or a perfect photograph.</p>
     </div>
 </section>
 
+<hr class="divider">
+
 <section id="programming">
-    <h2>Programming</h2>
+    <p class="section-label">What I've Built</p>
+    <h2>My <span>Projects</span></h2>
     <div class="programming-content">
         <div class="project-card">
-            <h3>Project One</h3>
-            <p>CustomLang-Java-Interpreter is a programming language built entirely from scratch in Java</p>
+            <div class="project-icon">⚙️</div>
+            <h3>CustomLang Interpreter</h3>
+            <p>A fully custom programming language built from scratch in Java — from lexer to evaluator.</p>
             <a href="https://github.com/BrandonGuergo/CustomLang-Java-Interpreter" target="_blank">View on GitHub</a>
         </div>
         <div class="project-card">
-            <h3>Project Two</h3>
-            <p>Robust AVL-Tree data structure.</p>
+            <div class="project-icon">🌳</div>
+            <h3>Custom AVL Tree</h3>
+            <p>A robust, self-balancing AVL Tree data structure implemented with full rotation logic.</p>
             <a href="https://github.com/BrandonGuergo/Custom-AVL-Tree" target="_blank">View on GitHub</a>
         </div>
     </div>
 </section>
 
+<hr class="divider">
+
 <section id="photography">
-    <h2>Photography</h2>
+    <p class="section-label">Through the Lens</p>
+    <h2>My <span>Photography</span></h2>
     <div class="gallery">
-        <div class="gallery-item" src="images/BlackAndWhiteBoat.jpg">Photo 1</div>
-        <div class="gallery-item" src="images/CaliforniaSkyline.png">Photo 2</div>
-        <div class="gallery-item" src="CuriousFox.png">Photo 3</div>
+        <div class="gallery-item">
+            <img src="images/BlackAndWhiteBoat.jpg" alt="Black and White Boat">
+            <div class="gallery-overlay"></div>
+        </div>
+        <div class="gallery-item">
+            <img src="images/CaliforniaSkyline.png" alt="California Skyline">
+            <div class="gallery-overlay"></div>
+        </div>
+        <div class="gallery-item">
+            <img src="images/CuriousFox.png" alt="Curious Fox">
+            <div class="gallery-overlay"></div>
+        </div>
     </div>
 </section>
 
 <footer>
-    <p>&copy; 2026 Brandon Guergo. All rights reserved.</p>
+    <p>&copy; 2026 Brandon Guergo &mdash; <a href="https://github.com/BrandonGuergo" target="_blank">GitHub</a></p>
 </footer>
 
 </body>
