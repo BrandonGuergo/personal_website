@@ -1,246 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Programming & Photography</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Name - Programming & Photography</title>
+<style>
+    /* Reset & base styles */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Poppins', sans-serif; line-height:1.6; background:#f8f7f6; color:#333; overflow-x:hidden; }
+    a { text-decoration:none; color: inherit; }
 
-        body {
-            font-family: 'Georgia', serif;
-            line-height: 1.6;
-            color: #333;
-            background: #fafafa;
-        }
+    /* Header */
+    header { position: sticky; top:0; z-index:100; background:#fff; padding:1.5rem 0; box-shadow:0 5px 15px rgba(0,0,0,0.05); }
+    nav { max-width:1200px; margin:0 auto; padding:0 2rem; display:flex; justify-content:space-between; align-items:center; }
+    .logo { font-size:1.8rem; font-weight:700; color:#764ba2; letter-spacing:1px; }
+    .nav-links { list-style:none; display:flex; gap:2rem; }
+    .nav-links a { font-weight:500; position:relative; transition:0.3s; }
+    .nav-links a::after { content:''; position:absolute; width:0%; height:2px; bottom:-3px; left:0; background:#764ba2; transition:0.3s; }
+    .nav-links a:hover::after { width:100%; }
 
-        header {
-            background: #fff;
-            padding: 2rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    /* Hero */
+    .hero { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height:80vh; background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; padding:0 2rem; }
+    .hero h1 { font-size:3.5rem; margin-bottom:1rem; animation:fadeInUp 1s ease forwards; opacity:0; }
+    .hero p { font-size:1.3rem; max-width:600px; animation:fadeInUp 1.2s ease forwards; opacity:0; }
 
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    /* Sections */
+    section { max-width:1200px; margin:6rem auto; padding:0 2rem; }
+    h2 { font-size:2.8rem; text-align:center; margin-bottom:3rem; background:linear-gradient(90deg,#667eea,#764ba2); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #2c3e50;
-        }
+    /* About */
+    .about-content { max-width:800px; margin:0 auto; text-align:center; font-size:1.1rem; line-height:1.8; color:#555; animation:fadeIn 1s ease forwards; opacity:0; }
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
+    /* Programming */
+    .programming-content { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2.5rem; }
+    .project-card { background:#fff; padding:2rem; border-radius:15px; box-shadow:0 15px 30px rgba(0,0,0,0.05); transition:0.5s; position:relative; overflow:hidden; }
+    .project-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg,#667eea,#764ba2); transform:translateY(100%); transition:0.5s; opacity:0.2; z-index:0; }
+    .project-card:hover::before { transform:translateY(0); }
+    .project-card h3 { font-size:1.6rem; margin-bottom:1rem; color:#764ba2; position:relative; z-index:1; }
+    .project-card p { margin-bottom:1rem; position:relative; z-index:1; }
+    .project-card a { font-weight:600; color:#fff; background:#764ba2; padding:0.5rem 1rem; border-radius:8px; transition:0.3s; position:relative; z-index:1; }
+    .project-card a:hover { background:#667eea; }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #555;
-            transition: color 0.3s;
-        }
+    /* Photography */
+    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2rem; }
+    .gallery-item { border-radius:15px; overflow:hidden; position:relative; cursor:pointer; box-shadow:0 15px 30px rgba(0,0,0,0.05); transition:0.5s; background:#ddd; display:flex; align-items:center; justify-content:center; aspect-ratio:4/3; color:#888; font-weight:500; font-size:1rem; }
+    .gallery-item img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s; }
+    .gallery-item:hover img { transform:scale(1.1); }
+    .gallery-item::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 0%, rgba(0,0,0,0.2) 100%); opacity:0.3; border-radius:15px; }
 
-        .nav-links a:hover {
-            color: #2c3e50;
-        }
+    /* Footer */
+    footer { background:#2c3e50; color:#fff; text-align:center; padding:2rem; margin-top:4rem; }
 
-        .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 6rem 2rem;
-            text-align: center;
-        }
+    /* Animations */
+    @keyframes fadeInUp { 0% {opacity:0; transform:translateY(30px);} 100% {opacity:1; transform:translateY(0);} }
+    @keyframes fadeIn { 0% {opacity:0;} 100% {opacity:1;} }
 
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
-            opacity: 0.9;
-        }
-
-        section {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 0 2rem;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            color: #2c3e50;
-        }
-
-        .about-content, .programming-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-            background: #ddd;
-            aspect-ratio: 4/3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-            font-size: 0.9rem;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .project-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-
-        .project-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #667eea;
-        }
-
-        .project-card p {
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 1rem;
-        }
-
-        .project-card a {
-            color: #764ba2;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        footer {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .nav-links {
-                gap: 1rem;
-            }
-
-            h2 {
-                font-size: 2rem;
-            }
-        }
-    </style>
+    /* Responsive */
+    @media(max-width:768px){ .hero h1{font-size:2.5rem;} h2{font-size:2.2rem;} .nav-links{gap:1rem;} }
+</style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">Your Name</div>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#programming">Programming</a></li>
-                <li><a href="#photography">Photography</a></li>
-                <li><a href="https://github.com/YOUR_USERNAME" target="_blank">GitHub</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <div class="hero">
-        <h1>Welcome</h1>
-        <p>Sharing my journey through code and photography</p>
+<header>
+    <nav>
+        <div class="logo">Your Name</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#programming">Programming</a></li>
+            <li><a href="#photography">Photography</a></li>
+            <li><a href="https://github.com/YOUR_USERNAME" target="_blank">GitHub</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="hero">
+    <h1>Hi, I'm [Your Name]</h1>
+    <p>Blending code with creativity, and moments with memories.</p>
+</div>
+
+<section id="about">
+    <h2>About Me</h2>
+    <div class="about-content">
+        <p>Hello! I'm [Your Name], a developer and photographer based in [Your Location]. I love crafting beautiful, interactive projects and capturing life's fleeting moments through my lens.</p>
     </div>
+</section>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <div class="about-content">
-            <p>Hello! I'm [Your Name], a developer and photographer based in [Your Location]. I love building interactive projects and capturing moments that tell a story.</p>
+<section id="programming">
+    <h2>Programming</h2>
+    <div class="programming-content">
+        <div class="project-card">
+            <h3>Project One</h3>
+            <p>A creative project using HTML, CSS, and JavaScript to solve real-world problems.</p>
+            <a href="https://github.com/YOUR_USERNAME/project-one" target="_blank">View on GitHub</a>
         </div>
-    </section>
-
-    <section id="programming">
-        <h2>Programming</h2>
-        <div class="programming-content">
-            <div class="project-card">
-                <h3>Project One</h3>
-                <p>Brief description of the project highlighting technologies used and purpose.</p>
-                <a href="https://github.com/YOUR_USERNAME/project-one" target="_blank">View on GitHub</a>
-            </div>
-            <div class="project-card">
-                <h3>Project Two</h3>
-                <p>Brief description of another project.</p>
-                <a href="https://github.com/YOUR_USERNAME/project-two" target="_blank">View on GitHub</a>
-            </div>
+        <div class="project-card">
+            <h3>Project Two</h3>
+            <p>An innovative app built with React and Node.js, featuring dynamic functionality.</p>
+            <a href="https://github.com/YOUR_USERNAME/project-two" target="_blank">View on GitHub</a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="photography">
-        <h2>Photography</h2>
-        <div class="gallery">
-            <div class="gallery-item">Photo Placeholder 1</div>
-            <div class="gallery-item">Photo Placeholder 2</div>
-            <div class="gallery-item">Photo Placeholder 3</div>
-            <div class="gallery-item">Photo Placeholder 4</div>
-            <div class="gallery-item">Photo Placeholder 5</div>
-            <div class="gallery-item">Photo Placeholder 6</div>
-        </div>
-    </section>
+<section id="photography">
+    <h2>Photography</h2>
+    <div class="gallery">
+        <div class="gallery-item">Photo 1</div>
+        <div class="gallery-item">Photo 2</div>
+        <div class="gallery-item">Photo 3</div>
+        <div class="gallery-item">Photo 4</div>
+        <div class="gallery-item">Photo 5</div>
+        <div class="gallery-item">Photo 6</div>
+    </div>
+</section>
 
-    <footer>
-        <p>&copy; 2026 Your Name. All rights reserved.</p>
-    </footer>
+<footer>
+    <p>&copy; 2026 Your Name. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
