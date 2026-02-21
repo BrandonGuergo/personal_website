@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Photography & Poetry</title>
+    <title>Your Name - Programming & Photography</title>
     <style>
         * {
             margin: 0;
@@ -90,7 +90,7 @@
             color: #2c3e50;
         }
 
-        .about-content {
+        .about-content, .programming-content {
             max-width: 800px;
             margin: 0 auto;
             text-align: center;
@@ -132,31 +132,35 @@
             display: block;
         }
 
-        .poems {
-            display: grid;
-            gap: 3rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .poem {
+        .project-card {
             background: white;
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
         }
 
-        .poem h3 {
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .project-card h3 {
             font-size: 1.8rem;
             margin-bottom: 1rem;
             color: #667eea;
         }
 
-        .poem-content {
-            font-style: italic;
-            white-space: pre-line;
+        .project-card p {
+            font-size: 1rem;
             color: #555;
-            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .project-card a {
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: bold;
         }
 
         footer {
@@ -188,95 +192,55 @@
             <div class="logo">Your Name</div>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
+                <li><a href="#programming">Programming</a></li>
                 <li><a href="#photography">Photography</a></li>
-                <li><a href="#poetry">Poetry</a></li>
+                <li><a href="https://github.com/YOUR_USERNAME" target="_blank">GitHub</a></li>
             </ul>
         </nav>
     </header>
 
     <div class="hero">
         <h1>Welcome</h1>
-        <p>Capturing moments through the lens and expressing them through words</p>
+        <p>Sharing my journey through code and photography</p>
     </div>
 
     <section id="about">
         <h2>About Me</h2>
         <div class="about-content">
-            <p>Hello! I'm [Your Name], a photographer and poet based in [Your Location]. I find beauty in the ordinary and magic in the everyday. Through my photography and poetry, I aim to share the stories and emotions that move me.</p>
-            <p>Replace this text with your own bio. Tell visitors about your artistic journey, what inspires you, and what you hope to share through your work.</p>
+            <p>Hello! I'm [Your Name], a developer and photographer based in [Your Location]. I love building interactive projects and capturing moments that tell a story.</p>
+        </div>
+    </section>
+
+    <section id="programming">
+        <h2>Programming</h2>
+        <div class="programming-content">
+            <div class="project-card">
+                <h3>Project One</h3>
+                <p>Brief description of the project highlighting technologies used and purpose.</p>
+                <a href="https://github.com/YOUR_USERNAME/project-one" target="_blank">View on GitHub</a>
+            </div>
+            <div class="project-card">
+                <h3>Project Two</h3>
+                <p>Brief description of another project.</p>
+                <a href="https://github.com/YOUR_USERNAME/project-two" target="_blank">View on GitHub</a>
+            </div>
         </div>
     </section>
 
     <section id="photography">
         <h2>Photography</h2>
         <div class="gallery">
-            <div class="gallery-item">
-                <!-- Replace with: <img src="images/photo1.jpg" alt="Description"> -->
-                Photo Placeholder 1
-            </div>
-            <div class="gallery-item">
-                <!-- Replace with: <img src="images/photo2.jpg" alt="Description"> -->
-                Photo Placeholder 2
-            </div>
-            <div class="gallery-item">
-                <!-- Replace with: <img src="images/photo3.jpg" alt="Description"> -->
-                Photo Placeholder 3
-            </div>
-            <div class="gallery-item">
-                <!-- Replace with: <img src="images/photo4.jpg" alt="Description"> -->
-                Photo Placeholder 4
-            </div>
-            <div class="gallery-item">
-                <!-- Replace with: <img src="images/photo5.jpg" alt="Description"> -->
-                Photo Placeholder 5
-            </div>
-            <div class="gallery-item">
-                <!-- Replace with: <img src="images/photo6.jpg" alt="Description"> -->
-                Photo Placeholder 6
-            </div>
-        </div>
-    </section>
-
-    <section id="poetry">
-        <h2>Poetry</h2>
-        <div class="poems">
-            <div class="poem">
-                <h3>Poem Title One</h3>
-                <div class="poem-content">Replace this with your poem.
-Each line will appear on a new line.
-You can write as many lines as you'd like.
-
-Add stanzas by leaving blank lines.
-The formatting will be preserved.
-Let your words flow freely here.</div>
-            </div>
-
-            <div class="poem">
-                <h3>Poem Title Two</h3>
-                <div class="poem-content">Another poem goes here.
-Share your voice and vision.
-Express what moves your soul.
-
-This is your space to create.
-Replace these placeholder words.
-With the poetry you hold dear.</div>
-            </div>
-
-            <div class="poem">
-                <h3>Poem Title Three</h3>
-                <div class="poem-content">A third poem awaits your words.
-Each piece tells its own story.
-Each line carries your unique voice.
-
-Add as many poems as you wish.
-Simply copy this poem section.
-And paste it below with new content.</div>
-            </div>
+            <div class="gallery-item">Photo Placeholder 1</div>
+            <div class="gallery-item">Photo Placeholder 2</div>
+            <div class="gallery-item">Photo Placeholder 3</div>
+            <div class="gallery-item">Photo Placeholder 4</div>
+            <div class="gallery-item">Photo Placeholder 5</div>
+            <div class="gallery-item">Photo Placeholder 6</div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2024 Your Name. All rights reserved.</p>
+        <p>&copy; 2026 Your Name. All rights reserved.</p>
     </footer>
 </body>
 </html>
