@@ -192,6 +192,7 @@
         .heading-wrap::after { margin-bottom:2rem; }
     }
     @media (max-width:400px) { .logo { font-size:1.35rem; } }
+    html { scroll-behavior: smooth; }
 </style>
 </head>
 <body>
@@ -228,7 +229,7 @@
     <div class="orb orb-3"></div>
     <div class="hero-content">
         <p class="hero-eyebrow">Developer &amp; Photographer</p>
-        <h1>Hi, I'm <em>Brandon</em><br>Guergo</h1>
+        <h1><em>Brandon</em><br>Guergo</h1>
         <p class="hero-sub">Blending code with creativity, and moments with memories.</p>
         <div class="hero-cta">
             <a href="#programming" class="btn btn-primary">View My Work</a>
@@ -316,6 +317,17 @@
     document.addEventListener('click', (e) => {
         if (drawer.classList.contains('open') && !drawer.contains(e.target) && !hamburger.contains(e.target)) toggleMenu(false);
     });
+
+    // Ensure fragment links land below the sticky header by applying
+    // a dynamic scroll margin to each section based on header height.
+    function updateScrollOffsets() {
+        const header = document.querySelector('header');
+        if (!header) return;
+        const offset = header.offsetHeight + 8; // small breathing room
+        document.querySelectorAll('section').forEach(s => s.style.scrollMarginTop = offset + 'px');
+    }
+    window.addEventListener('load', updateScrollOffsets);
+    window.addEventListener('resize', updateScrollOffsets);
 </script>
 </body>
 </html>
