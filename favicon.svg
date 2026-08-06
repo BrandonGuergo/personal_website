@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="#1f4d3a"/>
+  <path d="M0 44a64 64 0 0 0 64 0v6a14 14 0 0 1-14 14H14A14 14 0 0 1 0 50z" fill="#3d8a63" opacity="0.35"/>
+  <text x="32" y="47.4"
+        text-anchor="middle"
+        font-family="Cormorant Garamond, Baskerville, Georgia, Times New Roman, serif"
+        font-size="44"
+        font-weight="500"
+        font-style="italic"
+        fill="#f2ede4">B</text>
+</svg>
