@@ -1,73 +1,131 @@
+import PlantScene from './PlantScene'
+
+/** Bottom strip. Every line is drawn from what the rest of the page already claims. */
+const META = [
+  { label: 'Based in', value: 'Florida, USA' },
+  { label: 'Building', value: 'Languages & data structures' },
+  { label: 'Shooting', value: 'Landscape & wildlife' },
+] as const
+
+const INDEX = [
+  { href: '#about', num: '01', label: 'About' },
+  { href: '#programming', num: '02', label: 'Projects' },
+  { href: '#photography', num: '03', label: 'Photography' },
+] as const
+
 export default function Hero() {
   return (
-    <div className="relative flex flex-col items-center justify-center text-center min-h-screen px-8 overflow-hidden">
-      {/* Background gradients */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1a140c] via-[#1a2e20] to-[#0e1f14]"></div>
-      
-      {/* Purple-ish overlay radials */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div 
-          className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-50 animate-drift"
-          style={{background: 'radial-gradient(circle, rgba(92,74,53,0.5) 0%, transparent 70%)'}}
-        ></div>
-        <div 
-          className="absolute bottom-0 right-0 w-80 h-80 rounded-full blur-3xl opacity-50"
-          style={{
-            background: 'radial-gradient(circle, rgba(46,107,80,0.4) 0%, transparent 70%)',
-            animation: 'drift 18s ease-in-out infinite alternate-reverse'
-          }}
-        ></div>
-        <div 
-          className="absolute top-1/2 left-1/2 w-56 h-56 rounded-full blur-3xl opacity-30 animate-pulse-orb transform -translate-x-1/2 -translate-y-1/2"
-          style={{background: 'radial-gradient(circle, rgba(122,140,110,0.2) 0%, transparent 70%)'}}
-        ></div>
-      </div>
+    <section
+      aria-label="Introduction"
+      className="relative isolate flex min-h-screen min-h-svh flex-col overflow-hidden"
+    >
+      {/* Base gradient. The canvas composites additively on top of it. */}
+      <div className="absolute inset-0 -z-20 bg-linear-to-br from-[#171208] via-[#16281c] to-[#0b1a11]" />
+      {/* `data-quiet` marks the blocks the field thins out behind. */}
+      <PlantScene className="absolute inset-0 -z-10 h-full w-full" quiet="[data-quiet]" />
+      {/* Vignette, so the type never fights the brightest part of the field. */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(120%_90%_at_50%_40%,transparent_35%,rgba(6,14,9,0.72)_100%)]" />
+      {/* Scrim. The canvas quiet zones clear the growth out from behind the
+          type, but the base gradient runs warm at the top left and the meta
+          strip sits over open field. One directional wash and one bottom fade
+          settle both, with no edge anywhere for the eye to catch on. */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(105deg,rgba(6,14,9,0.78)_0%,rgba(6,14,9,0.45)_42%,transparent_72%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-64 bg-[linear-gradient(to_top,rgba(6,14,9,0.85)_0%,rgba(6,14,9,0.5)_45%,transparent_100%)]" />
 
-      {/* Animated rings */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative w-96 h-96">
-          <div className="absolute inset-0 rounded-full border border-sage-light/10 animate-slowSpin"></div>
-          <div className="absolute inset-8 rounded-full border border-dashed border-emerald-pop/20 animate-slowSpin"></div>
+      <div className="mx-auto flex w-full max-w-7xl grow flex-col justify-center px-6 pt-24 pb-6 md:px-8 md:pt-28 md:pb-10">
+        <div className="grid grid-cols-1 items-end gap-8 lg:grid-cols-12 lg:gap-8">
+          {/* Eyebrow, name, line and calls to action are one sheltered block,
+              so the field parts around the whole introduction rather than
+              around each line of it. No padding: the type aligns to the page
+              margin like print, and the calm is padded outward on the canvas
+              side instead (`QUIET_PAD` in PlantScene).
+
+              `data-quiet` sits on the inner `w-fit` wrapper rather than on the
+              grid cell. The cell is eight of twelve columns wide whatever the
+              type does, so measuring it stranded the quiet zone's right edge
+              far past the name; fit-content ends the calm where the longest
+              line ends. `max-w-full` keeps the paragraph's `max-w-md` from
+              setting a width narrow viewports cannot honour. */}
+          <div className="animate-fadeInUp opacity-0 lg:col-span-8" style={{ animationDelay: '0s' }}>
+            <div data-quiet className="w-fit max-w-full">
+              <p className="mb-6 flex items-center gap-3 text-[0.7rem] tracking-[0.32em] text-sage-light uppercase">
+                <span className="block h-px w-8 bg-sage" />
+                Developer &amp; Photographer
+              </p>
+
+              <h1 className="font-serif text-[clamp(3.5rem,11vw,7.5rem)] leading-[0.86] font-medium tracking-tight text-parchment">
+                <em className="text-emerald-pop italic">Brandon</em>
+                <br />
+                Guergo
+              </h1>
+
+              <p className="mt-7 max-w-md text-lg leading-8 tracking-wide text-cream/75">
+                I build programming languages and data structures from scratch, and keep
+                a camera within reach for everything else.
+              </p>
+
+              <div className="mt-9 flex flex-wrap gap-3">
+                <a
+                  href="#programming"
+                  className="rounded-sm border border-emerald-mid bg-emerald-mid px-6 py-3 text-xs font-semibold tracking-[0.2em] text-parchment uppercase transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-pop hover:shadow-2xl motion-reduce:hover:translate-y-0"
+                >
+                  View Projects
+                </a>
+                <a
+                  href="#photography"
+                  className="rounded-sm border border-cream/25 bg-cream/5 px-6 py-3 text-xs font-semibold tracking-[0.2em] text-cream uppercase transition-all duration-300 hover:-translate-y-0.5 hover:border-sage-light hover:bg-cream/10 hover:text-sage-light motion-reduce:hover:translate-y-0"
+                >
+                  See Photos
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Section index — doubles as secondary navigation and as ballast on
+              the right, so the hero is not one column floating in dead space. */}
+          <nav
+            aria-label="Page sections"
+            className="animate-fadeInUp opacity-0 lg:col-span-4"
+            style={{ animationDelay: '0.16s' }}
+          >
+            <ul data-quiet className="divide-y divide-cream/12">
+              {INDEX.map((item) => (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    className="group flex items-baseline gap-4 py-3 text-sm tracking-[0.18em] text-cream/70 uppercase transition-colors hover:text-parchment lg:py-3.5"
+                  >
+                    <span className="font-mono text-[0.65rem] text-emerald-pop/80">{item.num}</span>
+                    {item.label}
+                    <span className="ml-auto text-cream/25 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0">
+                      →
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 w-full max-w-2xl">
-        <p className="inline-flex items-center gap-3 text-xs tracking-widest uppercase text-sage-light mb-7 animate-fadeInUp opacity-0" style={{animationDelay: '0s'}}>
-          <span className="block w-7 h-px bg-sage"></span>
-          Developer &amp; Photographer
-          <span className="block w-7 h-px bg-sage"></span>
-        </p>
-        
-        <h1 className="font-serif text-6xl md:text-7xl font-medium text-parchment mb-6 leading-tight tracking-tighter animate-fadeInUp opacity-0" style={{animationDelay: '0.15s'}}>
-          <em className="italic text-emerald-pop">Brandon</em><br />Guergo
-        </h1>
-        
-        <p className="text-lg text-cream/55 max-w-sm mx-auto tracking-wide animate-fadeInUp opacity-0" style={{animationDelay: '0.3s'}}>
-          Blending code with creativity, and moments with memories.
-        </p>
-
-        <div className="flex gap-4 justify-center flex-wrap mt-11 animate-fadeInUp opacity-0" style={{animationDelay: '0.45s'}}>
-          <a 
-            href="#programming" 
-            className="px-6 py-3 bg-emerald-mid text-parchment font-semibold uppercase tracking-widest text-xs rounded transition-all duration-300 hover:bg-emerald-pop hover:-translate-y-1 hover:shadow-2xl border border-emerald-mid"
-          >
-            View My Work
-          </a>
-          <a 
-            href="#photography" 
-            className="px-6 py-3 bg-transparent text-cream font-semibold uppercase tracking-widest text-xs rounded transition-all duration-300 hover:text-sage-light hover:border-sage-light hover:-translate-y-1 border border-cream/30"
-          >
-            See Photos
-          </a>
-        </div>
+      {/* The strip is full-bleed, so it rides the bottom scrim rather than
+          claiming a quiet zone of its own — a band that wide would erase the
+          whole base of the field. A hairline separates it from the scene. */}
+      <div
+        className="animate-fadeInUp relative border-t border-cream/10 opacity-0"
+        style={{ animationDelay: '0.3s' }}
+      >
+        <dl className="mx-auto grid w-full max-w-7xl grid-cols-1 divide-y divide-cream/12 px-6 sm:grid-cols-3 sm:divide-x sm:divide-y-0 md:px-8">
+          {META.map((item) => (
+            <div key={item.label} className="py-3 sm:px-6 sm:py-4 sm:first:pl-0 sm:last:pr-0">
+              <dt className="text-[0.6rem] tracking-[0.28em] text-cream/35 uppercase">
+                {item.label}
+              </dt>
+              <dd className="mt-1 text-sm tracking-wide text-cream/75">{item.value}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-cream/35 text-xs tracking-widest uppercase animate-fadeIn opacity-0" style={{animationDelay: '1.2s'}}>
-        <div className="w-px h-12 bg-gradient-to-b from-sage-light/50 to-transparent animate-scrollPulse"></div>
-        <span>Scroll</span>
-      </div>
-    </div>
+    </section>
   )
 }

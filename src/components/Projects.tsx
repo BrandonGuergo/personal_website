@@ -1,65 +1,80 @@
+import SectionHeading from './SectionHeading'
+
+type Project = {
+  num: string
+  title: string
+  description: string
+  tags: readonly string[]
+  link: string
+}
+
+const PROJECTS: readonly Project[] = [
+  {
+    num: '01',
+    title: 'CustomLang Interpreter',
+    description:
+      'A programming language written from scratch in Java — lexer, parser, and evaluator, no dependencies.',
+    tags: ['Java', 'Lexer', 'Parser', 'Evaluator'],
+    link: 'https://github.com/BrandonGuergo/CustomLang-Java-Interpreter',
+  },
+  {
+    num: '02',
+    title: 'Custom AVL Tree',
+    description:
+      'A self-balancing AVL tree in Java — insertions, deletions, and all four rotations.',
+    tags: ['Data Structures', 'Self-Balancing', 'Rotations'],
+    link: 'https://github.com/BrandonGuergo/Custom-AVL-Tree',
+  },
+]
+
 export default function Projects() {
-  const projects = [
-    {
-      icon: '⚙️',
-      title: 'CustomLang Interpreter',
-      description: 'A fully custom programming language built from scratch in Java — from lexer to evaluator.',
-      link: 'https://github.com/BrandonGuergo/CustomLang-Java-Interpreter',
-    },
-    {
-      icon: '🌳',
-      title: 'Custom AVL Tree',
-      description: 'A robust, self-balancing AVL Tree data structure implemented with full rotation logic.',
-      link: 'https://github.com/BrandonGuergo/Custom-AVL-Tree',
-    },
-  ]
-
   return (
-    <>
-      <hr className="max-w-7xl mx-auto my-0 px-8 border-t border-opacity-10 border-soil" />
-      <section id="programming" className="max-w-7xl mx-auto my-32 px-8">
-        <div className="text-center mb-12">
-          <p className="text-xs tracking-widest uppercase text-emerald-pop mb-2">What I've Built</p>
-          <h2 className="font-serif text-4xl md:text-5xl font-medium text-bark">
-            My <span className="italic text-emerald">Projects</span>
-          </h2>
-          <div className="w-12 h-0.5 bg-gradient-to-r from-emerald to-sage mx-auto mt-3 mb-8 rounded"></div>
-        </div>
+    <section
+      id="programming"
+      className="mx-auto max-w-7xl border-t border-soil/10 px-6 py-20 md:px-8 md:py-24"
+    >
+      <SectionHeading eyebrow="Built From Scratch" title="My" accent="Projects" index="02" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-          {projects.map((project, idx) => (
-            <div 
-              key={idx}
-              className="bg-card p-10 rounded-lg border border-soil/10 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col text-left relative overflow-hidden group"
+      <ul className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
+        {PROJECTS.map((project) => (
+          <li key={project.link}>
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-soil/12 bg-card p-7 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-emerald/30 hover:shadow-xl motion-reduce:hover:translate-y-0"
             >
-              {/* Left accent bar */}
-              <div className="absolute left-0 top-0 w-0.5 h-0 bg-gradient-to-b from-emerald to-sage group-hover:h-full transition-all duration-300"></div>
+              {/* Accent bar that fills on hover. */}
+              <span className="absolute top-0 left-0 h-0 w-0.5 bg-linear-to-b from-emerald to-sage transition-all duration-300 group-hover:h-full" />
 
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald to-emerald-pop flex items-center justify-center mb-4 flex-shrink-0 text-2xl">
-                {project.icon}
+              <div className="flex items-baseline gap-3">
+                <span className="font-mono text-[0.65rem] tracking-[0.2em] text-emerald-pop">
+                  {project.num}
+                </span>
+                <h3 className="font-serif text-2xl font-semibold text-bark">
+                  {project.title}
+                </h3>
+                <span className="ml-auto text-soil/35 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-emerald motion-reduce:group-hover:translate-x-0 motion-reduce:group-hover:translate-y-0">
+                  ↗
+                </span>
               </div>
-              
-              <h3 className="font-serif text-2xl font-semibold text-bark mb-3">
-                {project.title}
-              </h3>
-              
-              <p className="text-sm leading-7 text-soil mb-6 flex-grow">
-                {project.description}
-              </p>
-              
-              <a 
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs font-semibold tracking-widest uppercase text-emerald border-b border-emerald-pop pb-0.5 hover:text-emerald-pop transition-colors"
-              >
-                View on GitHub
-                <span className="transition-transform group-hover:translate-x-1">→</span>
-              </a>
-            </div>
-          ))}
-        </div>
-      </section>
-    </>
+
+              <p className="mt-3 grow text-sm leading-7 text-soil">{project.description}</p>
+
+              <ul className="mt-6 flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <li
+                    key={tag}
+                    className="rounded-full border border-soil/12 bg-parchment px-2.5 py-1 text-[0.65rem] tracking-[0.14em] text-muted uppercase"
+                  >
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }

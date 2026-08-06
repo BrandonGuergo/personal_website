@@ -3,11 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brandon Guergo</title>
+
+  <title>Brandon Guergo — Developer &amp; Photographer</title>
+  <meta name="description" content="Brandon Guergo is a developer and photographer in Florida — building programming languages and data structures from scratch, and shooting landscape and wildlife.">
+  <link rel="canonical" href="https://www.brandonguergo.com/">
+
+  <!-- Icons. Modern browsers take the SVG; the .ico covers the rest. -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#1f4d3a">
+
+  <!-- Open Graph. The card image is a 1200x630 JPEG crop of one of the gallery
+       photos; crawlers do not reliably decode the AVIF/WebP the page itself
+       serves, and none of them want the 9.4MB original. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Brandon Guergo">
+  <meta property="og:url" content="https://www.brandonguergo.com/">
+  <meta property="og:title" content="Brandon Guergo — Developer &amp; Photographer">
+  <meta property="og:description" content="Developer and photographer in Florida — building languages and data structures from scratch, shooting landscape and wildlife.">
+  <meta property="og:image" content="https://www.brandonguergo.com/images/og-card.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Layered California ridgelines receding into a haze-filled valley under a pale sky">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Brandon Guergo — Developer &amp; Photographer">
+  <meta name="twitter:description" content="Developer and photographer in Florida — building languages and data structures from scratch, shooting landscape and wildlife.">
+  <meta name="twitter:image" content="https://www.brandonguergo.com/images/og-card.jpg">
+  <meta name="twitter:image:alt" content="Layered California ridgelines receding into a haze-filled valley under a pale sky">
+
+  <!-- Sole font load. The matching @import in src/index.css was removed. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
