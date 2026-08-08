@@ -1,4 +1,4 @@
-import FooterMole from './FooterMole'
+//import FooterMole from './FooterMole'
 
 const LINKS = [
   { href: '#about', label: 'About' },
