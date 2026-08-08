@@ -15,11 +15,11 @@ const FACTS = [
 
 export default function About() {
   return (
-    <section
-      id="about"
-      className="relative isolate mx-auto max-w-7xl select-none overflow-hidden px-6 py-20 md:px-8 md:py-24"
-    >
-      <WateringGarden className="absolute inset-0 z-10" />
+  <section
+    id="about"
+    className="relative isolate mx-auto max-w-7xl select-none overflow-hidden px-6 py-20 md:px-8 md:py-24"
+  >
+      <WateringGarden className="absolute inset-0" />
 
       <SectionHeading
         eyebrow="Background"

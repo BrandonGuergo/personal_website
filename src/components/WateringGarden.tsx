@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 // -----------------------------------------------------------------------------
 // Rendering / simulation
@@ -96,14 +97,23 @@ export default function WateringGarden({
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
+  const anchorRef = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
     const canvas = canvasRef.current
     const root = rootRef.current
+    const anchor = anchorRef.current
 
-    if (!canvas || !root) return
+    if (!canvas || !root || !anchor) return
 
-    const section = root.parentElement
+    const section = anchor.parentElement
     const ctx = canvas.getContext('2d', { alpha: true })
 
     if (!section || !ctx) return
@@ -117,6 +127,7 @@ export default function WateringGarden({
 
     let width = 0
     let height = 0
+    let groundY = 0
     let dpr = 1
 
     let drops: Drop[] = []
@@ -132,7 +143,7 @@ export default function WateringGarden({
     let canAngle = 0
 
     const pointer = {
-      // Coordinates relative to the About section / canvas.
+      // Viewport coordinates used directly by the fixed canvas.
       x: 0,
       y: 0,
 
@@ -154,18 +165,20 @@ export default function WateringGarden({
     // -------------------------------------------------------------------------
 
     const positionPointer = () => {
-      const rect = section.getBoundingClientRect()
+      pointer.x = pointer.clientX
+      pointer.y = pointer.clientY
+    }
 
-      pointer.x = pointer.clientX - rect.left
-      pointer.y = pointer.clientY - rect.top
+    const updateSectionBounds = () => {
+      groundY = section.getBoundingClientRect().bottom
     }
 
     const pointerIsInsideSection = () => {
       const rect = section.getBoundingClientRect()
 
       return (
-        pointer.clientX >= rect.left &&
-        pointer.clientX <= rect.right &&
+        pointer.clientX >= 0 &&
+        pointer.clientX <= window.innerWidth &&
         pointer.clientY >= rect.top &&
         pointer.clientY <= rect.bottom
       )
@@ -356,7 +369,7 @@ export default function WateringGarden({
             clamp01((age - fadeStart) / flower.fadeMs)
 
       const stemHeight = flower.height * grow
-      const baseY = height + 2
+      const baseY = groundY + 2
 
       const topX = flower.x + flower.lean * grow
       const topY = baseY - stemHeight
@@ -860,7 +873,7 @@ export default function WateringGarden({
         drop.y += drop.vy * dt
 
         // A droplet that reaches the soil has a small chance to germinate.
-        if (drop.y >= height - 1) {
+        if (drop.y >= groundY - 1) {
           if (Math.random() < FLOWER_SPROUT_CHANCE) {
             createFlower(drop.x, now)
           }
@@ -901,6 +914,7 @@ export default function WateringGarden({
 
       width = Math.round(rect.width)
       height = Math.round(rect.height)
+      updateSectionBounds()
 
       dpr = Math.min(
         window.devicePixelRatio || 1,
@@ -928,19 +942,24 @@ export default function WateringGarden({
     // Pointer interaction
     // -------------------------------------------------------------------------
 
-    const onPointerEnter = (event: PointerEvent) => {
-      updatePointer(event)
-      pointer.visible = true
+    const previousCursor = section.style.cursor
+    const previousDocumentCursor = document.documentElement.style.cursor
+
+    const syncCursor = () => {
+      document.documentElement.style.cursor =
+        pointer.visible || pointer.watering
+          ? 'none'
+          : previousDocumentCursor
     }
 
     const onPointerMove = (event: PointerEvent) => {
       updatePointer(event)
-    }
 
-    const onPointerLeave = () => {
       if (!pointer.watering) {
-        pointer.visible = false
+        pointer.visible = pointerIsInsideSection()
       }
+
+      syncCursor()
     }
 
     const onPointerDown = (event: PointerEvent) => {
@@ -948,17 +967,19 @@ export default function WateringGarden({
 
       updatePointer(event)
 
+      if (!pointerIsInsideSection()) {
+        pointer.visible = false
+        syncCursor()
+        return
+      }
+
       pointer.watering = true
       pointer.activePointerId = event.pointerId
+      syncCursor()
 
       // Allow an immediate first spray rather than waiting for WATER_RATE.
       lastWater = performance.now() - WATER_RATE
 
-      try {
-        section.setPointerCapture(event.pointerId)
-      } catch {
-        // Pointer capture is an enhancement, not a requirement.
-      }
     }
 
     const endWatering = (event?: PointerEvent) => {
@@ -977,30 +998,15 @@ export default function WateringGarden({
 
       pointer.watering = false
 
-      if (pointer.activePointerId !== null) {
-        try {
-          if (
-            section.hasPointerCapture(
-              pointer.activePointerId,
-            )
-          ) {
-            section.releasePointerCapture(
-              pointer.activePointerId,
-            )
-          }
-        } catch {
-          // The browser may already have released capture.
-        }
-      }
-
       pointer.activePointerId = null
 
       positionPointer()
       pointer.visible = pointerIsInsideSection()
+      syncCursor()
     }
 
     /*
-     * A native cursor is viewport-relative. Our canvas is section-relative.
+     * Both the native cursor and portal canvas are viewport-relative.
      *
      * When the page scrolls without the mouse moving, clientX/clientY stay
      * constant while the section's bounding rectangle moves. Recomputing local
@@ -1011,6 +1017,8 @@ export default function WateringGarden({
      * prevents the familiar one-frame "drag behind" during fast scrolling.
      */
     const onScroll = () => {
+      updateSectionBounds()
+
       if (!pointer.visible && !pointer.watering) return
 
       positionPointer()
@@ -1019,6 +1027,7 @@ export default function WateringGarden({
         pointer.visible = pointerIsInsideSection()
       }
 
+      syncCursor()
       render(performance.now())
     }
 
@@ -1073,27 +1082,15 @@ export default function WateringGarden({
       }
     }
 
-    const previousCursor = section.style.cursor
-
     if (interactive) {
       section.style.cursor = 'none'
 
-      section.addEventListener(
-        'pointerenter',
-        onPointerEnter,
-      )
-
-      section.addEventListener(
+      window.addEventListener(
         'pointermove',
         onPointerMove,
       )
 
-      section.addEventListener(
-        'pointerleave',
-        onPointerLeave,
-      )
-
-      section.addEventListener(
+      window.addEventListener(
         'pointerdown',
         onPointerDown,
       )
@@ -1122,6 +1119,7 @@ export default function WateringGarden({
 
     observer.observe(section)
     resizeObserver.observe(canvas)
+    resizeObserver.observe(section)
 
     resize()
 
@@ -1132,24 +1130,15 @@ export default function WateringGarden({
       resizeObserver.disconnect()
 
       section.style.cursor = previousCursor
+      document.documentElement.style.cursor = previousDocumentCursor
 
       if (interactive) {
-        section.removeEventListener(
-          'pointerenter',
-          onPointerEnter,
-        )
-
-        section.removeEventListener(
+        window.removeEventListener(
           'pointermove',
           onPointerMove,
         )
 
-        section.removeEventListener(
-          'pointerleave',
-          onPointerLeave,
-        )
-
-        section.removeEventListener(
+        window.removeEventListener(
           'pointerdown',
           onPointerDown,
         )
@@ -1175,18 +1164,31 @@ export default function WateringGarden({
         onVisibility,
       )
     }
-  }, [])
+  }, [mounted])
 
   return (
-    <div
-      ref={rootRef}
-      aria-hidden="true"
-      className={`pointer-events-none ${className}`}
-    >
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 h-full w-full"
+    <>
+      <div
+        ref={anchorRef}
+        aria-hidden="true"
+        className={`pointer-events-none ${className}`}
       />
-    </div>
+
+      {mounted &&
+        createPortal(
+          <div
+            ref={rootRef}
+            aria-hidden="true"
+            className="pointer-events-none fixed inset-0 z-[9999]"
+          >
+            <canvas
+              ref={canvasRef}
+              className="absolute inset-0 h-full w-full"
+            />
+          </div>,
+          document.body,
+        )}
+    </>
   )
+
 }
