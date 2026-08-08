@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const FIRST = 'Brandon '
 const LAST = 'Guergo'
@@ -20,10 +20,12 @@ const prefersReducedMotion = () =>
  * The header wordmark, rendered as a matrix-style binary decode: characters
  * flicker through 1s and 0s before locking into the name. Re-scrambles every
  * time `decodeKey` changes (i.e. when the header flips between its
- * top-of-page and scrolled states).
+ * top-of-page and scrolled states) and emits an occasional ambient glitch
+ * while idle.
  */
 export default function MatrixName({ decodeKey }: { decodeKey: boolean }) {
   const [chars, setChars] = useState<string[]>(() => NAME.split(''))
+  const decoding = useRef(false)
 
   // Full decode sweep whenever the header state flips (and once on mount).
   useEffect(() => {
@@ -31,6 +33,7 @@ export default function MatrixName({ decodeKey }: { decodeKey: boolean }) {
       setChars(NAME.split(''))
       return
     }
+    decoding.current = true
     let frame = 0
     const id = window.setInterval(() => {
       frame += 1
@@ -43,10 +46,40 @@ export default function MatrixName({ decodeKey }: { decodeKey: boolean }) {
           return randomBit()
         }),
       )
-      if (done) window.clearInterval(id)
+      if (done) {
+        decoding.current = false
+        window.clearInterval(id)
+      }
     }, FRAME_MS)
-    return () => window.clearInterval(id)
+    return () => {
+      decoding.current = false
+      window.clearInterval(id)
+    }
   }, [decodeKey])
+
+  // Ambient glitch: every few seconds a couple of characters briefly flip to
+  // binary, so the wordmark keeps a faint pulse even when idle.
+  useEffect(() => {
+    if (prefersReducedMotion()) return
+    let restore: number | undefined
+    const id = window.setInterval(() => {
+      if (decoding.current) return
+      const indices = new Set<number>()
+      const count = 1 + Math.floor(Math.random() * 2)
+      while (indices.size < count) {
+        const i = Math.floor(Math.random() * NAME.length)
+        if (NAME[i] !== ' ') indices.add(i)
+      }
+      setChars(NAME.split('').map((ch, i) => (indices.has(i) ? randomBit() : ch)))
+      restore = window.setTimeout(() => {
+        if (!decoding.current) setChars(NAME.split(''))
+      }, 180)
+    }, 2800)
+    return () => {
+      window.clearInterval(id)
+      window.clearTimeout(restore)
+    }
+  }, [])
 
   const renderChars = (from: number, to: number) =>
     chars.slice(from, to).map((ch, i) => (

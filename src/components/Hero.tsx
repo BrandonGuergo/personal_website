@@ -3,14 +3,15 @@ import PlantScene from './PlantScene'
 /** Bottom strip. Every line is drawn from what the rest of the page already claims. */
 const META = [
   { label: 'Based in', value: 'Florida, USA' },
-  { label: 'Building', value: 'Languages & data structures' },
+  { label: 'Building', value: 'AI integrated web-apps' },
   { label: 'Shooting', value: 'Landscape & wildlife' },
 ] as const
 
 const INDEX = [
-  { href: '#about', num: '01', label: 'About' },
-  { href: '#programming', num: '02', label: 'Projects' },
-  { href: '#photography', num: '03', label: 'Photography' },
+  
+  { href: '#programming', num: '01', label: 'Projects' },
+  { href: '#photography', num: '02', label: 'Photography' },
+  { href: '#about', num: '03', label: 'About' },
 ] as const
 
 export default function Hero() {

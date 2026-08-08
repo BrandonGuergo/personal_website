@@ -13,9 +13,9 @@ export default function App() {
       <Header />
       <main>
         <Hero />
-        <About />
         <Projects />
         <Gallery />
+        <About />
       </main>
       <Footer />
     </div>

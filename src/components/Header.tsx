@@ -9,8 +9,8 @@ type NavLink = {
 }
 
 const NAV_LINKS: readonly NavLink[] = [
-  { href: '#about', label: 'About', external: false },
   { href: '#programming', label: 'Projects', external: false },
+  { href: '#about', label: 'About', external: false },
   { href: '#photography', label: 'Photography', external: false },
   { href: 'https://github.com/BrandonGuergo', label: 'GitHub', external: true },
 ]
